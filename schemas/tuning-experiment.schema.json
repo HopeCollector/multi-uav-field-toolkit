@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/multi-uav-field-toolkit/tuning-experiment.schema.json",
+  "title": "Simulation-only tuning experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "budget",
+    "evaluator",
+    "scenarios",
+    "parameters",
+    "constraints",
+    "objectives",
+    "search"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "experiment_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"},
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rounds", "max_candidates_per_round"],
+      "properties": {
+        "rounds": {"type": "integer", "minimum": 1, "maximum": 20},
+        "max_candidates_per_round": {"type": "integer", "minimum": 1, "maximum": 64}
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "timeout_seconds"],
+      "properties": {
+        "id": {"const": "synthetic-planner-v1"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}
+      }
+    },
+    "scenarios": {"type": "string", "pattern": "^[^/\\\\].*\\.json$"},
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lookahead_m",
+        "replan_distance_m",
+        "grid_resolution_m",
+        "safety_margin_m",
+        "speed_limit_mps",
+        "sample_stride"
+      ],
+      "properties": {
+        "lookahead_m": {
+          "allOf": [
+            {"$ref": "#/$defs/floatParameter"},
+            {"properties": {
+              "baseline": {"minimum": 2, "maximum": 15},
+              "min": {"minimum": 2, "maximum": 15},
+              "max": {"minimum": 2, "maximum": 15}
+            }}
+          ]
+        },
+        "replan_distance_m": {
+          "allOf": [
+            {"$ref": "#/$defs/floatParameter"},
+            {"properties": {
+              "baseline": {"minimum": 0.5, "maximum": 8},
+              "min": {"minimum": 0.5, "maximum": 8},
+              "max": {"minimum": 0.5, "maximum": 8}
+            }}
+          ]
+        },
+        "grid_resolution_m": {
+          "allOf": [
+            {"$ref": "#/$defs/floatParameter"},
+            {"properties": {
+              "baseline": {"minimum": 0.05, "maximum": 0.5},
+              "min": {"minimum": 0.05, "maximum": 0.5},
+              "max": {"minimum": 0.05, "maximum": 0.5}
+            }}
+          ]
+        },
+        "safety_margin_m": {
+          "allOf": [
+            {"$ref": "#/$defs/floatParameter"},
+            {"properties": {
+              "baseline": {"minimum": 0.05, "maximum": 1},
+              "min": {"minimum": 0.05, "maximum": 1},
+              "max": {"minimum": 0.05, "maximum": 1}
+            }}
+          ]
+        },
+        "speed_limit_mps": {
+          "allOf": [
+            {"$ref": "#/$defs/floatParameter"},
+            {"properties": {
+              "baseline": {"minimum": 0.25, "maximum": 5},
+              "min": {"minimum": 0.25, "maximum": 5},
+              "max": {"minimum": 0.25, "maximum": 5}
+            }}
+          ]
+        },
+        "sample_stride": {
+          "allOf": [
+            {"$ref": "#/$defs/integerParameter"},
+            {"properties": {
+              "baseline": {"minimum": 1, "maximum": 8},
+              "min": {"minimum": 1, "maximum": 8},
+              "max": {"minimum": 1, "maximum": 8}
+            }}
+          ]
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/constraint"}
+    },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/objective"}
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shrink_factor"],
+      "properties": {
+        "shrink_factor": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+      }
+    }
+  },
+  "$defs": {
+    "floatParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "baseline", "min", "max", "step"],
+      "properties": {
+        "type": {"const": "float"},
+        "baseline": {"type": "number"},
+        "min": {"type": "number"},
+        "max": {"type": "number"},
+        "step": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "integerParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "baseline", "min", "max", "step"],
+      "properties": {
+        "type": {"const": "integer"},
+        "baseline": {"type": "integer"},
+        "min": {"type": "integer"},
+        "max": {"type": "integer"},
+        "step": {"type": "integer", "minimum": 1}
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "operator", "threshold"],
+      "properties": {
+        "metric": {
+          "enum": [
+            "success_rate",
+            "collision_count",
+            "p95_replan_ms",
+            "minimum_clearance_m",
+            "max_command_gap_ms",
+            "completion_time_s",
+            "path_length_ratio"
+          ]
+        },
+        "operator": {"enum": ["<=", ">="]},
+        "threshold": {"type": "number"}
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "direction", "weight", "range"],
+      "properties": {
+        "metric": {
+          "enum": [
+            "success_rate",
+            "collision_count",
+            "p95_replan_ms",
+            "minimum_clearance_m",
+            "max_command_gap_ms",
+            "completion_time_s",
+            "path_length_ratio"
+          ]
+        },
+        "direction": {"enum": ["maximize", "minimize"]},
+        "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1000},
+        "range": {
+          "type": "array",
+          "prefixItems": [{"type": "number"}, {"type": "number"}],
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    }
+  }
+}

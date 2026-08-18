@@ -1,0 +1,23 @@
+{
+  "uav_id": "uav1",
+  "seq": 1,
+  "battery": {
+    "percent": 0.87,
+    "voltage": 16.4
+  },
+  "flight": {
+    "connected": true,
+    "armed": false,
+    "mode": "HOLD"
+  },
+  "odom": {
+    "input_topic": "/localization/pose",
+    "freshness_ms": 100,
+    "hz": 10.0
+  },
+  "link": {
+    "interface": "simulated",
+    "network_rx_bps": 4000,
+    "network_tx_bps": 12000
+  }
+}

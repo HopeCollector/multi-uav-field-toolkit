@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/multi-uav-field-toolkit/tuning-evaluation.schema.json",
+  "title": "Synthetic tuning evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evaluator_id",
+    "candidate_id",
+    "simulated",
+    "status",
+    "scenario_count",
+    "metrics",
+    "diagnostics"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "evaluator_id": {"const": "synthetic-planner-v1"},
+    "candidate_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "simulated": {"const": true},
+    "status": {"const": "ok"},
+    "scenario_count": {"type": "integer", "minimum": 1, "maximum": 64},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "success_rate",
+        "collision_count",
+        "p95_replan_ms",
+        "minimum_clearance_m",
+        "max_command_gap_ms",
+        "completion_time_s",
+        "path_length_ratio"
+      ],
+      "properties": {
+        "success_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "collision_count": {"type": "integer", "minimum": 0, "maximum": 64},
+        "p95_replan_ms": {"type": "number", "minimum": 0, "maximum": 1000},
+        "minimum_clearance_m": {"type": "number", "minimum": -10, "maximum": 10},
+        "max_command_gap_ms": {"type": "number", "minimum": 0, "maximum": 2000},
+        "completion_time_s": {"type": "number", "minimum": 0, "maximum": 10000000},
+        "path_length_ratio": {"type": "number", "minimum": 1, "maximum": 10}
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["notes"],
+      "properties": {
+        "notes": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {"type": "string", "maxLength": 512}
+        }
+      }
+    }
+  }
+}

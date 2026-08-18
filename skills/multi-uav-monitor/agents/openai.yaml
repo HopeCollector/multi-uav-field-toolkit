@@ -1,0 +1,3 @@
+interface:
+  display_name: "Multi-UAV Monitor Demo"
+  short_description: "Run and verify the localhost synthetic monitor"

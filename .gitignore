@@ -1,0 +1,31 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+outputs/
+
+# Field data and heavy derived artifacts must never be committed.
+*.bag
+*.bag.active
+*.db3
+rosbag2_*/
+*.pcd
+*.ply
+*.las
+*.laz
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.log
+
+# Local configuration and credentials.
+.env
+.env.*
+!.env.example
+*.local.toml

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Process UAV Bag Data"
+  short_description: "Inspect bags and create privacy-conscious artifacts"

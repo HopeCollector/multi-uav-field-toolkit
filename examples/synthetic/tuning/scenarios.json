@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schemas/tuning-scenarios.schema.json",
+  "schema_version": 1,
+  "description": "Fabricated, dimensionless scenario factors for the local tuning demo.",
+  "scenarios": [
+    {
+      "id": "open",
+      "complexity": 1.0,
+      "narrowness": 0.05,
+      "length_m": 80
+    },
+    {
+      "id": "gentle-turns",
+      "complexity": 2.0,
+      "narrowness": 0.2,
+      "length_m": 95
+    },
+    {
+      "id": "corner",
+      "complexity": 3.0,
+      "narrowness": 0.35,
+      "length_m": 105
+    },
+    {
+      "id": "cluttered",
+      "complexity": 4.0,
+      "narrowness": 0.55,
+      "length_m": 115
+    },
+    {
+      "id": "narrow",
+      "complexity": 3.5,
+      "narrowness": 0.8,
+      "length_m": 100
+    },
+    {
+      "id": "mixed",
+      "complexity": 2.5,
+      "narrowness": 0.45,
+      "length_m": 110
+    }
+  ]
+}

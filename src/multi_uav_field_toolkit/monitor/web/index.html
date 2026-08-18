@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UAV Monitor</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>UAV Monitor</h1>
+      <p id="hostStatus">等待数据</p>
+    </div>
+    <div class="legend" aria-label="status legend">
+      <span><i class="dot ok"></i>OK</span>
+      <span><i class="dot warn"></i>WARN</span>
+      <span><i class="dot error"></i>ERROR</span>
+      <span><i class="dot missing"></i>MISSING</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="uavGrid" class="uav-grid"></section>
+  </main>
+
+  <template id="uavCardTemplate">
+    <article class="uav-card">
+      <div class="card-head">
+        <div>
+          <h2 class="uav-id"></h2>
+          <span class="mode-pill"></span>
+        </div>
+        <span class="status-dot"></span>
+      </div>
+
+      <div class="video-shell">
+        <img class="video" alt="">
+        <div class="video-empty">NO IMAGE</div>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric"><span>Battery</span><strong class="battery"></strong></div>
+        <div class="metric"><span>Flight</span><strong class="flight"></strong></div>
+        <div class="metric"><span>RC RSSI</span><strong class="rc"></strong></div>
+        <div class="metric"><span>Odom Freshness</span><strong class="odom"></strong></div>
+        <div class="metric"><span>Image Age</span><strong class="image-age"></strong></div>
+        <div class="metric"><span>EKF EV Delay</span><strong class="ekf-delay">未直接测量</strong></div>
+        <div class="metric"><span>CPU</span><strong class="cpu"></strong></div>
+        <div class="metric"><span>RAM</span><strong class="ram"></strong></div>
+      </div>
+
+      <div class="node-row"></div>
+
+      <div class="bandwidth">
+        <div><span>Network RX</span><strong class="eth-rx"></strong></div>
+        <div><span>Network TX</span><strong class="eth-tx"></strong></div>
+        <div><span>Status UDP</span><strong class="status-rx"></strong></div>
+        <div><span>Image UDP</span><strong class="image-rx"></strong></div>
+      </div>
+    </article>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>

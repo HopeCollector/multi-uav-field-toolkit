@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent-in-Loop Tuning"
+  short_description: "Run bounded simulation-only automatic tuning"
+  default_prompt: "Use $agent-in-loop-tuning to run the bundled synthetic tuning demo and explain the selected candidate."
+policy:
+  allow_implicit_invocation: true
